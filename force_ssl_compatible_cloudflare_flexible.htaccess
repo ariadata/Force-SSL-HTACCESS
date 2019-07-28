@@ -1,0 +1,16 @@
+# Force To HTTPS Compatible With Cloudflare
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTPS} !on
+RewriteCond %{SERVER_PORT} !^443$
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+#Redirect non-www to www with https
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+#Redirect www to non-www with https
+#RewriteCond %{HTTP_HOST} ^(?!www\.)(.+) [NC]
+#RewriteRule ^(.*) https://www.%1/$1 [R=301,NE,L]
+# END
